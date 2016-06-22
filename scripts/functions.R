@@ -3,13 +3,12 @@
 
 ###############
 # Density plot function from chm
-density_plot_from_chm <- function(rast.in, title, bins) {
-     density(rast.in, main = title, xlab = "Canopy height (m)")
-     sapply(bins, function(x) abline(v = x, col = "red"))
+density_plot_from_dtm <- function(rast.in, title) {
+     density(rast.in, main = title, xlab = "Elevation Loss (m)")
 }
 
 # Histogram plot function, expects chm raster, title, and breaks
-hist_plot_from_chm <- function(rast.in, title, bins) {
+hist_plot_from_raster <- function(rast.in, title, bins) {
      #chm[ chm <= 0 ] <- NA
      hist(rast.in, main = title, xlab = "Canopy height (m)")
      sapply(bins, function(x) abline(v = x, col = "red"))
