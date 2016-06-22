@@ -27,13 +27,16 @@ post.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-f
 
 ```
 
-```{r dsm-change}
+```{r dtm-change}
 dtm.change <- pre.dtm - post.dtm
 dtm.change[ dtm.change >= -0.2] <- NA
 
 # density plot of elevation change
 density_plot_from_dtm(dtm.change, "Elevation Change Post-Flood \nBoulder, CO")
 
+plot(pre.dtm,
+     col = topo.colors(255),
+     main = "Pre-Flood DTM \nBoulder, CO")
 # Plotting the change in elevation
 plot(dtm.change, 
      zlim = c(-50,0),
