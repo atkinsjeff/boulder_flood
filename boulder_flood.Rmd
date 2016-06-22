@@ -24,9 +24,13 @@ pre.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flo
 
 post.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-flood/postDTM/postDTM3.tif")
 
-pre.camera <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flood/BLDR_pre_camera/preCamera_Comp.tif")
+png("preflood.PNG")
 
-plot(pre.camera)
+png(pre.camera)
 ```
 
+```{r dsm-change}
+
+dsm.change <- pre.dsm - post.dsm
+plot(dsm.change)
 ```
