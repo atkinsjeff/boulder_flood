@@ -8,11 +8,12 @@ output: html_document
 ```{r import-libraries}
 library(raster)
 library(rgdal)
+source("scripts/functions.R")
 ```
-
+## Pre- and post-flood  DTM and DSM comparison for Boulder, CO for the 2013 Boulder Flood.
+![Orthoimagery of Boulder, CO before 2013 flood](prefloodpic.png)
 
 ```{r import-rasters}
-
 # importing pre and post flood  digital surface rasters
 pre.dsm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flood/BLDR_pre_DSM/preDSM3.tif")
 
@@ -24,13 +25,29 @@ pre.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flo
 
 post.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-flood/postDTM/postDTM3.tif")
 
-png("preflood.PNG")
-
-png(pre.camera)
 ```
 
 ```{r dsm-change}
+dtm.change <- pre.dtm - post.dtm
+dtm.change[ dtm.change >= -0.2] <- NA
 
-dsm.change <- pre.dsm - post.dsm
-plot(dsm.change)
+# density plot of elevation change
+density_plot_from_dtm(dtm.change, "Elevation Change Post-Flood \nBoulder, CO")
+
+# Plotting the change in elevation
+plot(dtm.change, 
+     zlim = c(-50,0),
+          col = heat.colors(10),
+     main = "Elevation Change Post-Flood \nBoulder, CO")
+
+
+
+
+
+
+
+
+
+
+
 ```
