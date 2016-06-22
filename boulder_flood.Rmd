@@ -50,17 +50,25 @@ pre_chm[pre_chm == 0] <- NA
 
 ```{r check-pre-post-veg-diff}
 # Subtract post- from pre-flooding to evaluate veg loss
-chm_diff <- pre_chm - post_chm
+chm_diff <- post_chm - pre_chm
 
-# Lots of noise. Let's get rid of it.
-chm_diff[chm_diff > -1] <- NA
+chm_diff[chm_diff < 1 & chm_diff > -1] <- NA
+# Lots of noise. About a half meter of error.
+#chm_diff[chm_diff < 1 & chm_diff > -1] <- NA
 
 ```
 
 Plotting the vegetation cover change
 ```{r plot-diff}
+density(chm_diff)
+
+# Hard-coded breaks and colors
+breaks <- seq(-25, 25, 5)
+plotCols <- c(rev(rainbow(5, start = 0, end = .1)), rainbow(5, v = .6, start = .7, end = .8))
 plot(chm_diff,
-     col = rev(rainbow(40, start = .6)))
+     breaks = breaks,
+     col = plotCols)
+
 ```
 
 ```{r dtm-change}
