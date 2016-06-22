@@ -1,0 +1,32 @@
+---
+title: "Boulder Flood"
+author: "Jeff Atkins"
+date: "June 22, 2016"
+output: html_document
+---
+
+```{r import-libraries}
+library(raster)
+library(rgdal)
+```
+
+
+```{r import-rasters}
+
+# importing pre and post flood  digital surface rasters
+pre.dsm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flood/BLDR_pre_DSM/preDSM3.tif")
+
+post.dsm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-flood/postDSM/postDSM3.tif")
+
+# importing pre and post flood digital terrain models
+
+pre.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flood/BLDR_pre_DTM/preDTM3.tif")
+
+post.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-flood/postDTM/postDTM3.tif")
+
+pre.camera <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flood/BLDR_pre_camera/preCamera_Comp.tif")
+
+plot(pre.camera)
+```
+
+```
