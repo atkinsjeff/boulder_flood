@@ -5,15 +5,21 @@ date: "June 22, 2016"
 output: html_document
 ---
 
-```{r import-libraries}
+```{r import-libraries, echo = FALSE, message = FALSE}
 library(raster)
 library(rgdal)
 source("scripts/functions.R")
 ```
-## Pre- and post-flood  DTM and DSM comparison for Boulder, CO for the 2013 Boulder Flood.
-![Orthoimagery of Boulder, CO before 2013 flood](prefloodpic.png)
+# 2013 Boulder Flood Analysis
+![Orthoimagery of Boulder, CO before 2013 flood (Courtesy NEON)](prefloodpic.png)
 
-```{r import-rasters}
+## Project Goals:
+
+* Examine landscape changes following flood disturbance to the Boulder, CO area using NEON remote sensing products
+* Identify areas of greater vegetation disturbance using LiDAR derived digital surface models (DSM)
+* Identify areas of erosion and deposition using digital terrain models (DTM)
+
+```{r import-rasters, echo = FALSE}
 # importing pre and post flood  digital surface rasters
 pre.dsm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/pre-flood/BLDR_pre_DSM/preDSM3.tif")
 
@@ -28,6 +34,8 @@ post.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-f
 ```
 
 ## Vegetation loss from flooding
+
+Using the DSM we can calculate a change in vegetation cover.
 ```{r get-simple-CHM}
 # We want to make simple Canopy Height Models of pre- and post-flooding
 post_chm <- post.dsm - post.dtm
@@ -49,15 +57,17 @@ chm_diff[chm_diff > -1] <- NA
 
 ```
 
-## Plot the changes
+Plotting the vegetation cover change
 ```{r plot-diff}
 plot(chm_diff,
      col = rev(rainbow(40, start = .6)))
 ```
 
-```{r dsm-change}
+```{r dtm-change}
+# DTM layer change calculation
 dtm.change <- pre.dtm - post.dtm
-dtm.change[ dtm.change >= -0.2] <- NA
+dtm.change[ dtm.change == 0] <- NA
+dtm.change[dtm.change < 1 & dtm.change > -1] <- NA
 
 # density plot of elevation change
 density_plot_from_dtm(dtm.change, "Elevation Change Post-Flood \nBoulder, CO")
@@ -66,12 +76,27 @@ plot(pre.dtm,
      col = topo.colors(255),
      main = "Pre-Flood DTM \nBoulder, CO")
 
-# Plotting the change in elevation
+# Erosion!
 plot(dtm.change, 
      zlim = c(-50,0),
-          col = heat.colors(10),
-     main = "Elevation Change Post-Flood \nBoulder, CO")
-dsm.change <- pre.dsm - post.dsm
+          col = heat.colors(5),
+     main = "Erosion Post-Flood \nBoulder, CO")
+
+#Deposition
+plot(dtm.change,
+     zlim = c(0, 10),
+     col = rainbow(5),
+     main = "Deposition Post-Flood \nBoulder, CO")
 
 ```
+
+## Conclusions
+
+We can see that high in the mountains, above Boulder, there is significant decreases in elevation corresponding to flood-induced landslides that lead to deposition along Boulder Creek and other waterways in Boulder.
+
+
+* LiDAR DTMs show erosion and deposition patterns well
+* Vegetation change however, is difficult to detect without further information
+
+![LiDAR point cloud viewed in plas.io showing(Courtesy NEON)](lidar_point_cloud.png)
 
