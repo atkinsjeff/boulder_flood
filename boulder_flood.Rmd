@@ -27,7 +27,35 @@ post.dtm <- raster("../NEONdata/Boulder_Flood/BLDR_LeeHill_Pre_Post_Flood/post-f
 
 ```
 
-```{r dtm-change}
+## Vegetation loss from flooding
+```{r get-simple-CHM}
+# We want to make simple Canopy Height Models of pre- and post-flooding
+post_chm <- post.dsm - post.dtm
+# 0 values as NA
+post_chm[post_chm == 0] <- NA
+
+pre_chm <- pre.dsm - pre.dtm
+# 0 values as NA
+pre_chm[pre_chm == 0] <- NA
+
+```
+
+```{r check-pre-post-veg-diff}
+# Subtract post- from pre-flooding to evaluate veg loss
+chm_diff <- pre_chm - post_chm
+
+# Lots of noise. Let's get rid of it.
+chm_diff[chm_diff > -1] <- NA
+
+```
+
+## Plot the changes
+```{r plot-diff}
+plot(chm_diff,
+     col = rev(rainbow(40, start = .6)))
+```
+
+```{r dsm-change}
 dtm.change <- pre.dtm - post.dtm
 dtm.change[ dtm.change >= -0.2] <- NA
 
@@ -42,15 +70,7 @@ plot(dtm.change,
      zlim = c(-50,0),
           col = heat.colors(10),
      main = "Elevation Change Post-Flood \nBoulder, CO")
-
-
-
-
-
-
-
-
-
-
-
+dsm.change <- pre.dsm - post.dsm
+plot(dsm.change)
 ```
+
