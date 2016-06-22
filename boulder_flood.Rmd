@@ -29,7 +29,6 @@ png("preflood.PNG")
 png(pre.camera)
 ```
 
-<<<<<<< HEAD
 ## Vegetation loss from flooding
 ```{r get-simple-CHM}
 # We want to make simple Canopy Height Models of pre- and post-flooding
@@ -52,15 +51,14 @@ chm_diff[chm_diff > -1] <- NA
 
 ```
 
+## Plot the changes
 ```{r plot-diff}
 plot(chm_diff,
      col = rev(rainbow(40, start = .6)))
 ```
 
-=======
 ```{r dsm-change}
 
 dsm.change <- pre.dsm - post.dsm
 plot(dsm.change)
 ```
->>>>>>> d30d8be9d2f697a9e8802bb86f2800a717398e86
