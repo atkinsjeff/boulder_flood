@@ -4,7 +4,7 @@
 ###############
 # Density plot function from chm
 density_plot_from_dtm <- function(rast.in, title) {
-     density(rast.in, main = title, xlab = "Elevation Loss (m)")
+     density(rast.in, main = title, xlab = "Elevation Change (m)")
 }
 
 # Histogram plot function, expects chm raster, title, and breaks
